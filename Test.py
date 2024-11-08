@@ -7,7 +7,7 @@ nltk.download('movie_reviews')
 nltk.download('wordnet')
 nltk.download('averaged_perceptron_tagger')
 
-text = "I love you"
+text = "Law of the land"
 blob = TextBlob(text)
 
 print("Sentiment:", blob.sentiment)
