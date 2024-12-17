@@ -24,8 +24,8 @@ client.login(df.iloc[0,0], df.iloc[0,1])
 #print(post.uri)
 #print(post.cid)
 #url = 'https://bsky.app/profile/illybocean.boontavista.com/post/3laqu7hzvxs24'
-url = 'https://bsky.app/profile/camerontt2003.bsky.social/post/3ldh42tm3ls2c'
-uri = get_uri(url)
+url = 'https://bsky.app/profile/pixelatedboat.bsky.social/post/3ldim5bwm222e'
+uri = get_bluesky_uri(url)
 #uri = 'at://illybocean.boontavista.com/app.bsky.feed.post/3laqu7hzvxs24'
 #depth = 6
 #parent_height = 80
