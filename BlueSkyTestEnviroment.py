@@ -3,6 +3,7 @@ from BlueSkyUrlBuilder import *
 import pandas as pd
 import json
 import nltk
+from atproto_client.exceptions import UnauthorizedError
 nltk.download('brown')
 nltk.download('punkt')
 nltk.download('punkt_tab')
@@ -17,7 +18,11 @@ df = pd.read_csv('C:/Users/camsp/Documents/QMUL/CS2024/Project/Keys/blueSkyLogin
 
 #this logs me in
 client = Client()
-client.login(df.iloc[0,0], df.iloc[0,1])
+try:
+    client.login(df.iloc[0, 0], df.iloc[0, 1])
+except UnauthorizedError as e:
+    print(f"Login failed: {e}")
+    exit(1)
 
 #this will make a post to my account 
 #post = client.send_post('Hello world! I love Juliette')

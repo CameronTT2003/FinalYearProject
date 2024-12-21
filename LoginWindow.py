@@ -42,13 +42,21 @@ def create_login_setup(root, on_login):
     return entry_username, entry_password
 
 def handle_login(entry_username, entry_password, root, result):
+
+    username = entry_username.get()
+    password = entry_password.get()
+    
+    if not username or not password:
+        messagebox.showerror("Error", "Username and Password cannot be empty")
+        return
+    
     result['username'] = entry_username.get()
     result['password'] = entry_password.get()
     # login logic
-    messagebox.showinfo("Login Info", f"Username: {result['username']}\nPassword: {result['password']}")
+    #messagebox.showinfo("Login Info", f"Username: {result['username']}\nPassword: {result['password']}")
     root.destroy()  # Close the window after login
 
-def bluesky_login_window():
+def login_window():
     root = create_main_window()
     result = {}
     entry_username, entry_password = create_login_setup(root, lambda entry_username, entry_password: handle_login(entry_username, entry_password, root, result))
