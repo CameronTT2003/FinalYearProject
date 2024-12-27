@@ -29,7 +29,7 @@ except UnauthorizedError as e:
 #print(post.uri)
 #print(post.cid)
 #url = 'https://bsky.app/profile/illybocean.boontavista.com/post/3laqu7hzvxs24'
-url = 'https://bsky.app/profile/pixelatedboat.bsky.social/post/3ldim5bwm222e'
+url = 'https://bsky.app/profile/dapperdondharshi.bsky.social/post/3lec7e7mi3k2s'
 uri = get_bluesky_uri(url)
 #uri = 'at://illybocean.boontavista.com/app.bsky.feed.post/3laqu7hzvxs24'
 #depth = 6
@@ -49,7 +49,7 @@ def extract_text_from_thread(thread):
             texts.extend(extract_text_from_thread(reply.post))
     return texts
 
-# Assuming `thread` is the thread object you provided
+# Extract the texts from the thread
 initial_text = thread.post.record.text if hasattr(thread, 'post') and hasattr(thread.post, 'record') and hasattr(thread.post.record, 'text') else ""
 texts = extract_text_from_thread(thread)
 total_polarity = 0
