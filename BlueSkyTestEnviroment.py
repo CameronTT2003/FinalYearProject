@@ -29,7 +29,7 @@ except UnauthorizedError as e:
 #print(post.uri)
 #print(post.cid)
 #url = 'https://bsky.app/profile/illybocean.boontavista.com/post/3laqu7hzvxs24'
-url = 'https://bsky.app/profile/dapperdondharshi.bsky.social/post/3lec7e7mi3k2s'
+url = 'https://bsky.app/profile/mrsbettybowers.bsky.social/post/3lek6x6x27s24'
 uri = get_bluesky_uri(url)
 #uri = 'at://illybocean.boontavista.com/app.bsky.feed.post/3laqu7hzvxs24'
 #depth = 6

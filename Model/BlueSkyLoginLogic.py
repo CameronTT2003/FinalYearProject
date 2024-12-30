@@ -1,6 +1,6 @@
 from atproto import Client
 from atproto_client.exceptions import UnauthorizedError
-from LoginWindow import login_window
+from View.LoginWindow import login_window
 from tkinter import messagebox
 
 def bluesky_login(username, password):
