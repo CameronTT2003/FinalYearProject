@@ -1,0 +1,74 @@
+import nltk
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('vader_lexicon')
+
+def is_sarcastic(text):
+    sarcastic_phrases = ['🙄', '😡', 'yeah right', 'sure', 'as if']
+    return any(phrase in text.lower() for phrase in sarcastic_phrases)
+
+def analyze_sentiment(text, sia):
+    sentiment_score = sia.polarity_scores(text)
+    if is_sarcastic(text):
+        return 'negative', (text, sentiment_score['compound'])
+    elif sentiment_score['compound'] >= 0.05:
+        return 'positive', (text, sentiment_score['compound'])
+    elif sentiment_score['compound'] <= -0.05:
+        return 'negative', (text, sentiment_score['compound'])
+    else:
+        return 'neutral', (text, sentiment_score['compound'])
+
+def summarize_sentiments(texts, summary_length):
+    sia = SentimentIntensityAnalyzer()
+    sentiment_summary = {
+        'positive': [],
+        'neutral': [],
+        'negative': []
+    }
+
+    for text in texts:
+        sentiment, result = analyze_sentiment(text, sia)
+        sentiment_summary[sentiment].append(result)
+
+    for key in sentiment_summary:
+        sentiment_summary[key] = sorted(sentiment_summary[key], key=lambda x: x[1], reverse=True)
+
+    return generate_written_summary(sentiment_summary, summary_length)
+
+def generate_written_summary(sentiment_summary, summary_length):
+    written_summary = "The overall sentiment of the texts is as follows:\n"
+    if sentiment_summary['positive']:
+        written_summary += "Positive sentiments:\n"
+        written_summary += '\n'.join(f"- {text} (score: {score:.2f})" for text, score in sentiment_summary['positive'][:summary_length]) + '\n'
+    if sentiment_summary['neutral']:
+        written_summary += "Neutral sentiments:\n"
+        written_summary += '\n'.join(f"- {text} (score: {score:.2f})" for text, score in sentiment_summary['neutral'][:summary_length]) + '\n'
+    if sentiment_summary['negative']:
+        written_summary += "Negative sentiments:\n"
+        written_summary += '\n'.join(f"- {text} (score: {score:.2f})" for text, score in sentiment_summary['negative'][:summary_length]) + '\n'
+    return written_summary
+
+def main():
+    texts = [
+        'Snowball shelf 😆', 'Thanks Luke, I needed that today!', 'Built tough mush tough', 
+        'Do they not get cold??', 'Now I’m curious how much weight the mushroom can hold haha', 
+        'Hell yeah', 'More like an ICE mushroom! 🥁', 'Those are some nice mushrooms 🍄', 
+        'That is a snow shelf mushroom.', '“Here is a cold mushroom.”', 'Looks like a very cold tuke 🥶', 
+        '🥰🥰🥰', 'A nice mushroom or an ice mushroom?  🍄', 'I want to poke the snow 😆 it’s so fluffed over the mushroom', 
+        'Not a lichen?', 'Very nice!!', 'Frosty polypore', 'Nice', 'I don’t see a mushroom. All I see is a snow cone before they add the pina colada flavoring. 😝', 
+        'Cool photo💙', 'Strong mushroom holding all that snow!', 'The Mycelium Keeper \n   ♾️   ⭐️    🍄\u200d🟫   🧙🏼\u200d♂️   ♾️', 
+        'Mushroom info - oak mazegil   ll: wikipedia.org/wiki/Fomitopsis_quercina\n\nI posted another mushroom on the Patreon this morning! And an update on shipping: Patreon.com/luke_venechuk', 
+        'hell yea', 'Elephant ear?', 'Nice.', 'That IS a nice mushroom!  I appreciate the content.', 
+        'It’s like a little mitten the tree is holding out to play with snow. 💖', 'mazegill - solid name for a mushroom 🤜 🤛', 
+        'I present a clathrus ruber..not the prettiest one I’ve had but always intriguing', 'Like he’s got a little hat on', 
+        "Russia's got a lot to offer, and Trump recognizes that. We're going to see a pivot towards a more transactional relationship with mutual benefits.", 
+        ' Oh. Poor thing….🤍\nThe mushroom. Not you!', 'ABSOLUTE BANGER', 'AMAZING', 'Nice hat', 'Tripophobia ACTIVATED'
+    ]
+    summary_length = 5
+    summary = summarize_sentiments(texts, summary_length)
+    print(summary)
+
+if __name__ == "__main__":
+    main()
